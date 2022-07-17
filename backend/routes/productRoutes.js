@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 const router = express.Router()
 import {
   getProducts,
@@ -11,9 +12,13 @@ import {
 } from '../controllers/productController.js'
 import { protect, admin } from '../middleware/authMiddleware.js'
 
+router.use(cors())
 router.route('/').get(getProducts).post(protect, admin, createProduct)
+router.use(cors())
 router.route('/:id/reviews').post(protect, createProductReview)
+router.use(cors())
 router.get('/top', getTopProducts)
+router.use(cors())
 router
   .route('/:id')
   .get(getProductById)
